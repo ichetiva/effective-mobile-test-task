@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    restart: always
+    depends_on: [ postgres ]
+    ports:
+      - "8080:8080"
+    networks:
+      effective_mobile:
+        aliases:
+          - effective_mobile-api
+  
+  postgres:
+    image: postgres
+    restart: always
+    env_file: .env
+    volumes:
+      - "postgres:/var/lib/postgresql/data"
+    networks:
+      effective_mobile:
+        aliases:
+          - effective_mobile-postgres
+
+volumes:
+  postgres:
+
+networks:
+  effective_mobile:
+    external: true
+    

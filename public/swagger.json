@@ -1,0 +1,289 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Documentation of cars API.\n\nSchemes:\nhttp\nhttps",
+    "title": "Car info.",
+    "version": "0.0.1"
+  },
+  "basePath": "/",
+  "paths": {
+    "/api/car/": {
+      "get": {
+        "description": "gets car by filters",
+        "tags": [
+          "car"
+        ],
+        "operationId": "carFilters",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "uint64",
+            "x-go-name": "ID",
+            "description": "car id",
+            "name": "id",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "RegNum",
+            "description": "license plate",
+            "name": "regNum",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Mark",
+            "description": "brand",
+            "name": "mark",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Model",
+            "description": "model",
+            "name": "model",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CarsResponse",
+            "schema": {
+              "$ref": "#/definitions/CarsResponse"
+            }
+          },
+          "500": {
+            "description": "ErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "creates car",
+        "tags": [
+          "car"
+        ],
+        "operationId": "createCar",
+        "parameters": [
+          {
+            "x-go-name": "RegNum",
+            "description": "license plate",
+            "name": "regNum",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "x-go-name": "Mark",
+            "description": "brand",
+            "name": "mark",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "x-go-name": "Model",
+            "description": "model",
+            "name": "model",
+            "in": "body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "x-go-name": "Owner",
+            "description": "car owner",
+            "name": "owner",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Owner"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CarResponse",
+            "schema": {
+              "$ref": "#/definitions/CarResponse"
+            }
+          },
+          "400": {
+            "description": "ErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "ErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/car/{carId}/": {
+      "put": {
+        "description": "updates car",
+        "tags": [
+          "car"
+        ],
+        "operationId": "car",
+        "responses": {
+          "200": {
+            "description": "CarResponse",
+            "schema": {
+              "$ref": "#/definitions/CarResponse"
+            }
+          },
+          "400": {
+            "description": "ErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "ErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "deletes car",
+        "tags": [
+          "car"
+        ],
+        "operationId": "carId",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "uint64",
+            "x-go-name": "ID",
+            "description": "car id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "EmptyResponse",
+            "schema": {
+              "$ref": "#/definitions/EmptyResponse"
+            }
+          },
+          "400": {
+            "description": "ErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "ErrorResponse",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CarResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "the id of this car",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "ID"
+        },
+        "mark": {
+          "description": "brand",
+          "type": "string",
+          "x-go-name": "Mark"
+        },
+        "model": {
+          "description": "model",
+          "type": "string",
+          "x-go-name": "Model"
+        },
+        "owner": {
+          "$ref": "#/definitions/OwnerResponse"
+        },
+        "regNum": {
+          "description": "license plate",
+          "type": "string",
+          "x-go-name": "RegNum"
+        }
+      },
+      "x-go-package": "github.com/ichetiva/effective-mobile-test-task/module/car/controller"
+    },
+    "CarsResponse": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CarResponse"
+      },
+      "x-go-package": "github.com/ichetiva/effective-mobile-test-task/module/car/controller"
+    },
+    "EmptyResponse": {
+      "type": "object",
+      "x-go-package": "github.com/ichetiva/effective-mobile-test-task/module/car/controller"
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "error message",
+          "type": "string",
+          "x-go-name": "Message"
+        }
+      },
+      "x-go-package": "github.com/ichetiva/effective-mobile-test-task/pkg/responder"
+    },
+    "Owner": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "first name\nin: body",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "surname": {
+          "description": "last name\nin: body",
+          "type": "string",
+          "x-go-name": "Surname"
+        }
+      },
+      "x-go-package": "github.com/ichetiva/effective-mobile-test-task/module/car/controller"
+    },
+    "OwnerResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "name",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "surname": {
+          "description": "surname",
+          "type": "string",
+          "x-go-name": "Surname"
+        }
+      },
+      "x-go-package": "github.com/ichetiva/effective-mobile-test-task/module/car/controller"
+    }
+  }
+}
